@@ -4,6 +4,10 @@
 
 - [What is EKS](#what-is-eks)
 - [Why EKS](#why-eks)
+- [Worker Node Options](#work-node-options)
+- [Create EKS Cluster](#create-eks-cluster)
+- [Create Worker Nodes](#create-worker-nodes)
+- [Connect to Cluster](#connect-to-cluster)
 
 ## What is EKS?
 
