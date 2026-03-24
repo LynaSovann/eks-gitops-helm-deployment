@@ -10,8 +10,13 @@ on:
     paths:
       - web/**
 
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: html-gitops-eks
+  EKS_CLUSTER: eks-gitops-cluster
+
 jobs:
-  BUILD_IMAGE:
+  BuildAndPublish:
     name: "Build docker image"
     runs-on: ubuntu-latest
     steps:
@@ -19,3 +24,13 @@ jobs:
         uses: actions/checkout@v4
       - name: List content
         run: ls -a
+      - name: Build Image
+        id: ecr-publish
+        uses: bitovi/github-actions-ecr-publish@v0.1.0
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_default_region: ${{ env.AWS_REGION }}
+          aws_ecr_repo_name: ${{ env.ECR_REPOSITORY }}
+          image_tag: ${{ github.run_number }}
+          dockerfile_path: ./web/Dockerfile
