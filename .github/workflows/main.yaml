@@ -1,14 +1,21 @@
-name: CI
+name: CI-CD
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
+    paths:
+      - web/**
   pull_request:
-    branches: [main]
+    branches: [main, dev]
+    paths:
+      - web/**
 
 jobs:
-  test:
+  BUILD_IMAGE:
+    name: "Build docker image"
     runs-on: ubuntu-latest
     steps:
-      - name: Test
+      - name: Code Checkout
+        run: actions/checkout@v4
+      - name: List content
         run: ls -a
