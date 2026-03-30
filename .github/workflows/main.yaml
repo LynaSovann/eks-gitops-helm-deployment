@@ -77,7 +77,7 @@ jobs:
           IMAGE_REPO=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}
           IMAGE_TAG=${{ github.run_number }}
 
-          helm upgrade --install web ./helm/dev-chart \
+          helm upgrade --install web-dev ./helm/dev-chart \
             --set image.repository=$IMAGE_REPO \
             --set image.tag=$IMAGE_TAG
 
@@ -87,6 +87,6 @@ jobs:
           IMAGE_REPO=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}
           IMAGE_TAG=${{ github.run_number }}
 
-          helm upgrade --install web ./helm/stage-chart \
+          helm upgrade --install web-stage ./helm/stage-chart \
             --set image.repository=$IMAGE_REPO \
             --set image.tag=$IMAGE_TAG
