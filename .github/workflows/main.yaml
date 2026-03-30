@@ -13,7 +13,6 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: html-gitops-eks
-  EKS_CLUSTER: eks-gitops-cluster
 
 jobs:
   BuildAndPublish:
@@ -37,7 +36,7 @@ jobs:
           IMAGE=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
           docker build -t $IMAGE -f ./web/Dockerfile ./web
           docker push $IMAGE
-  DeployToEKS:
+  DeployToK8S:
     needs: BuildAndPublish
     runs-on: ubuntu-latest
     steps:
@@ -49,3 +48,14 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG_DATA }}" > $HOME/.kube/config
+          cat $HOME/.kube/config
+      # - name: Deploy to Kubernetes
+      #   run: |
+      #     IMAGE=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
+      #     sed -i "s|image: 716920920468.dkr.ecr.us-east-1.amazonaws.com/html-gitops-eks:latest|image: $IMAGE|g" k8s/dev/deployment.yaml
+      #     kubectl apply -f k8s/dev/deployment.yaml
