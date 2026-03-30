@@ -60,8 +60,8 @@ jobs:
 
       - name: Test Kubectl
         run: kubectl get node
-      # - name: Deploy to Kubernetes
-      #   run: |
-      #     IMAGE=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
-      #     sed -i "s|image: 716920920468.dkr.ecr.us-east-1.amazonaws.com/html-gitops-eks:latest|image: $IMAGE|g" k8s/dev/deployment.yaml
-      #     kubectl apply -f k8s/dev/deployment.yaml
+
+      - name: Login to ECR
+        run: kubectl create secret docker-registry regcred --docker-server=${{ secrets.REGISTRY }} --docker-username=AWS --docker-password=$(aws ecr get-login-password)
+
+      # - name: Setup Helm
