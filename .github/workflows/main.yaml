@@ -72,21 +72,26 @@ jobs:
       - name: Setup Helm
         uses: azure/setup-helm@v4
 
-      - name: Deploy with Helm from dev branch
+      - name: Deploy DEV
+        if: github.ref == 'refs/heads/dev'
         run: |
           IMAGE_REPO=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}
           IMAGE_TAG=${{ github.run_number }}
 
           helm upgrade --install web-dev ./helm/dev-chart \
+            --namespace dev \
+            --create-namespace \
             --set image.repository=$IMAGE_REPO \
             --set image.tag=$IMAGE_TAG
 
-      - name: Deploy from main branch
+      - name: Deploy STAGE
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           IMAGE_REPO=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}
           IMAGE_TAG=${{ github.run_number }}
 
           helm upgrade --install web-stage ./helm/stage-chart \
+            --namespace stage \
+            --create-namespace \
             --set image.repository=$IMAGE_REPO \
             --set image.tag=$IMAGE_TAG
