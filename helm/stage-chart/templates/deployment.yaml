@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: html-gitops-eks
+  namespace: stage
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: html-gitops-eks
+  template:
+    metadata:
+      labels:
+        app: html-gitops-eks
+    spec:
+      containers:
+        - name: html-gitops-eks
+          image: 716920920468.dkr.ecr.us-east-1.amazonaws.com/html-gitops-eks:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
