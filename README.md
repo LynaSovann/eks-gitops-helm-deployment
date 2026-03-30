@@ -13,7 +13,7 @@ This project demonstrates a **GitOps-style CI/CD pipeline** using:
 
 ## 📌 Architecture Overview
 
-<div align="center"> <img src="./assets/diagram.png" heigh="200"> </div>
+<div align="center"> <img src="./assets/diagram.png" height="200"> </div>
 
 ### Flow Summary
 
