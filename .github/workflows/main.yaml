@@ -64,4 +64,14 @@ jobs:
       - name: Login to ECR
         run: kubectl create secret docker-registry regcred --docker-server=${{ secrets.REGISTRY }} --docker-username=AWS --docker-password=$(aws ecr get-login-password)
 
-      # - name: Setup Helm
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Deploy with Helm
+        run: |
+          IMAGE_REPO=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}
+          IMAGE_TAG=${{ github.run_number }}
+
+          helm upgrade --install web ./helm/dev-chart \
+            --set image.repository=$IMAGE_REPO \
+            --set image.tag=$IMAGE_TAG
