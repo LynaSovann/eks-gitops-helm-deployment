@@ -77,7 +77,7 @@ Two approaches:
 
 This project currently uses `imagePullSecrets` to authenticate with ECR.
 
-### ✅ Recommended (Production)
+### ✅ Recommended (Improving)
 
 Use IAM roles attached to kOps nodes to allow Kubernetes to pull images from ECR without managing secrets.
 
@@ -172,15 +172,6 @@ curl -H "Host: dev.lynasovann.site" http://<ELB-DNS>
 - 📊 Add monitoring (Prometheus + Grafana)
 - 🔁 Blue/Green or Canary deployments
 
----
-
-## 👨‍💻 Author
-
-**Sovann Lyna**
-DevOps Engineer (Learning → Building → Scaling)
-
----
-
 ## ⭐️ Summary
 
 This project demonstrates a **real-world DevOps pipeline**:
@@ -194,7 +185,3 @@ A solid foundation for:
 - CI/CD pipelines
 - Kubernetes deployments
 - GitOps workflows
-
-```
-
-```
